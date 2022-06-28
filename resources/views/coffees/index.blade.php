@@ -1,3 +1,13 @@
+@extends('layouts.layouts')
+
+@section('title', 'Coffee Board')
+
+@section('content')
+
+    @if (session('message'))
+        {{ session('message') }}
+    @endif
+
 <h1>Coffee</h1>
 
 @foreach($coffees as $coffee)
@@ -13,3 +23,6 @@
 @endforeach
 
 <a href="/coffees/create">New Coffee</a>
+
+@endsection
+
