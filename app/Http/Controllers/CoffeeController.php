@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Coffee;
 use Illuminate\Http\Request;
 
-class Coffeecontroller extends Controller
+class CoffeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class Coffeecontroller extends Controller
      */
     public function index()
     {
-        //
+        $coffees = Coffee::all();
+
+        return view('coffees.index', compact('coffees'));
     }
 
     /**
@@ -24,7 +26,7 @@ class Coffeecontroller extends Controller
      */
     public function create()
     {
-        //
+        return view('coffees.create');
     }
 
     /**
@@ -35,7 +37,12 @@ class Coffeecontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $coffee = new Coffee();
+        $coffee->coffee_name = $request->input('coffee_name');
+        $coffee->coffee_place = $request->input('coffee_place');
+        $coffee->save();
+
+        return redirect()->route('coffees.show', ['id' => $coffee->id])->with('message', 'Coffee was successfully created.');
     }
 
     /**
@@ -46,7 +53,7 @@ class Coffeecontroller extends Controller
      */
     public function show(Coffee $coffee)
     {
-        //
+         return view('coffees.show', compact('coffee'));
     }
 
     /**
@@ -57,7 +64,7 @@ class Coffeecontroller extends Controller
      */
     public function edit(Coffee $coffee)
     {
-        //
+         return view('coffees.edit', compact('coffee'));
     }
 
     /**
@@ -69,7 +76,11 @@ class Coffeecontroller extends Controller
      */
     public function update(Request $request, Coffee $coffee)
     {
-        //
+        $coffee->coffee_name = $request->input('coffee_name');
+        $coffee->coffee_place = $request->input('coffee_place');
+        $coffee->save();
+
+        return redirect()->route('coffees.show', ['id' => $coffee->id])->with('message', 'Coffee was successfully updated.');
     }
 
     /**
@@ -80,6 +91,8 @@ class Coffeecontroller extends Controller
      */
     public function destroy(Coffee $coffee)
     {
-        //
+        $coffee->delete();
+
+        return redirect()->route('coffees.index');
     }
 }
